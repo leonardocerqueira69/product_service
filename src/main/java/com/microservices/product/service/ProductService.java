@@ -39,4 +39,18 @@ public class ProductService {
     public void deleteProduct(String id) {
         productRepository.deleteById(id);
     }
+
+    public ProductDto getProductById(String id) {
+        Product product = productRepository.findById(id).orElseThrow();
+        return ProductMapperDto.maptoDto(product);
+    }
+
+    public ProductDto updateProduct(String id, ProductDto productDto) {
+        Product product = productRepository.findById(id).orElseThrow();
+        product.setName(productDto.name());
+        product.setDescription(productDto.description());
+        product.setPrice(productDto.price());
+        Product updatedProduct = productRepository.save(product);
+        return ProductMapperDto.maptoDto(updatedProduct);
+    }
 }
